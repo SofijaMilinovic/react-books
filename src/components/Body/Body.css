@@ -1,0 +1,10 @@
+.Body {
+    text-align: center;
+    margin-top: 10em;
+}
+
+@media screen and (max-width: 991px) {
+    .Body {
+        margin-top: 23em;
+    }
+}
