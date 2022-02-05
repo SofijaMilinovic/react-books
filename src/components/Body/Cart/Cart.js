@@ -57,7 +57,7 @@ class Cart extends Component {
                     </div>
                 </div>
                 <div className="col-lg-3 col-md-3">
-                    <button className="btn btn-primary btn-buy" onClick={this.onBuy}>Buy</button>
+                    {cart.length != 0 ? (<button className="btn btn-primary btn-buy" onClick={this.onBuy}>Buy</button>) : null}
                     {this.state.purchased ?
                         (<div class="alert alert-primary">
                             Purchase successful!
