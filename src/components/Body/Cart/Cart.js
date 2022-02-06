@@ -18,22 +18,22 @@ class Cart extends Component {
         setTimeout(() => this.setState({ purchased: false }), 5000);
     }
 
+    getTotalCartAmount = (cart) => {
+        let totalCartAmount = 0;
+        for (let i = 0; i < cart.length; i++) {
+            totalCartAmount += cart[i].book.price * cart[i].amount;
+        }
+        return totalCartAmount;
+    }
+
     render() {
         const cart = this.props.cartProp;
-
-        const getTotalCartAmount = () => {
-            let totalCartAmount = 0;
-            for (let i = 0; i < cart.length; i++) {
-                totalCartAmount += cart[i].book.price * cart[i].amount;
-            }
-            return totalCartAmount;
-        }
 
         return (
             <div className="row">
                 <div className="col-lg-3 col-md-3 total-cart-amount">
                     Total amount:
-                    <div>{getTotalCartAmount()} <span style={{ color: "green" }}>$</span></div>
+                    <div>{this.getTotalCartAmount(cart)} <span style={{ color: "green" }}>$</span></div>
                 </div>
                 <div className="col-lg-6 col-md-6">
                     <div className="row">
