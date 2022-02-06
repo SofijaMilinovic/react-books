@@ -1,8 +1,17 @@
 import { Component } from 'react';
 import './Filters.css';
-import { books, genres, bookPriceLimits } from '../../../../data/data.js';
+import { genres, bookPriceLimits } from '../../../../data/data.js';
 
 class Filters extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            books: props.books
+        };
+    }
+
     componentDidMount = () => {
         this.filters = {
             title: document.getElementById('title'),
@@ -15,7 +24,7 @@ class Filters extends Component {
 
     
     filterBooks = () => {
-        let filteredBooks = books.filter(book => {
+        let filteredBooks = this.state.books.filter(book => {
             return this.checkBookTitle(book) &&
                 this.checkBookAuthor(book) &&
                 this.checkBookPrice(book) &&

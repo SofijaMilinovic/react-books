@@ -10,20 +10,42 @@ class Books extends Component {
         super(props);
 
         this.state = {
-            books: books.slice(),
+            error: null,
+            isLoaded: false,
+            books: [],
         };
     }
-  
+
+    componentDidMount() {
+        fetch("http://localhost:8080/books")
+            .then(res => res.json())
+            .then(
+                (books) => {
+                    console.log(books);
+                    this.setState({
+                        isLoaded: true,
+                        books: books
+                    });
+                },
+                (error) => {
+                    this.setState({
+                        isLoaded: true,
+                        error
+                    });
+                }
+            )
+    }
+
     updateBooks = filteredBooks => {
         this.setState({ books: filteredBooks });
     }
 
-    render() {
+    renderBooks() {
         return (
             <div className="Books container">
                 <div className="row">
                     <div className="col-lg-3 col-md-4 col-sm-6 col-6">
-                        <Filters updateBooksProp={this.updateBooks} />
+                        <Filters books={this.state.books} updateBooksProp={this.updateBooks} />
                     </div>
                     <div className="col-lg-9 col-md-8 col-sm-6 col-6">
                         <div className="container">
@@ -31,7 +53,7 @@ class Books extends Component {
                                 {this.state.books.map(book => {
                                     return (
                                         <div key={book.id} className="col-lg-3 col-md-4 col-sm-12 col-12">
-                                            <Book bookProp={book} addBookToCartProp={ this.props.addBookToCartProp } removeBookFromCartProp={ this.props.removeBookFromCartProp }/>
+                                            <Book bookProp={book} addBookToCartProp={this.props.addBookToCartProp} removeBookFromCartProp={this.props.removeBookFromCartProp} />
                                         </div>
                                     );
                                 })}
@@ -42,6 +64,17 @@ class Books extends Component {
             </div>
         );
     };
+
+    render() {
+        const { error, isLoaded, items } = this.state;
+        if (error) {
+            return <div>Error: {error.message}</div>;
+        } else if (!isLoaded) {
+            return <div>Loading...</div>;
+        } else {
+            return this.renderBooks();
+        }
+    }
 }
 
 export default Books;
