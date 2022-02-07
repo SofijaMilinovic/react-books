@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import './Filters.css';
-import { genres, bookPriceLimits } from '../../../../data/data.js';
+import { bookPriceLimits } from '../../../../data/data.js';
 
 class Filters extends Component {
 
@@ -8,7 +8,8 @@ class Filters extends Component {
         super(props);
 
         this.state = {
-            books: props.books
+            books: props.books,
+            genres: []
         };
     }
 
@@ -20,9 +21,25 @@ class Filters extends Component {
             priceTo: document.getElementById('priceTo'),
             genre: document.getElementById('genre'),
         };
+
+        fetch("http://localhost:8080/genres")
+            .then(res => res.json())
+            .then(
+                (genres) => {
+                    this.setState({
+                        isLoaded: true,
+                        genres: genres
+                    });
+                },
+                (error) => {
+                    this.setState({
+                        isLoaded: true,
+                        error
+                    });
+                }
+            )
     }
 
-    
     filterBooks = () => {
         let filteredBooks = this.state.books.filter(book => {
             return this.checkBookTitle(book) &&
@@ -69,11 +86,11 @@ class Filters extends Component {
     }
 
     checkBookGenre = book => {
-        const selectedGenre = this.filters.genre.value;
-        if (selectedGenre == 'All') {
+        const selectedGenreId = this.filters.genre.value;
+        if (selectedGenreId == 'All') {
             return true;
         }
-        return book.genre == selectedGenre;
+        return book.genre.id == selectedGenreId;
     }
 
     resetFilters = () => {
@@ -86,6 +103,10 @@ class Filters extends Component {
     }
 
     render() {
+        const genreOptions = this.state.genres.map((genre) =>
+            <option key={genre.id} value={genre.id}>{genre.name}</option>
+        );
+
         return (
             <div className="Filters">
 
@@ -104,10 +125,7 @@ class Filters extends Component {
                 <label>Genre</label>
                 <select id="genre" className="form-control offset-bottom" onChange={this.filterBooks}>
                     <option value="All">All</option>
-                    <option value={genres.genre1}>{genres.genre1}</option>
-                    <option value={genres.genre2}>{genres.genre2}</option>
-                    <option value={genres.genre3}>{genres.genre3}</option>
-                    <option value={genres.genre4}>{genres.genre4}</option>
+                    {genreOptions}
                 </select>
 
                 <button className="btn btn-primary" onClick={this.resetFilters}>

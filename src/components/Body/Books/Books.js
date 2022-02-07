@@ -2,7 +2,6 @@ import { Component } from 'react';
 import './Books.css';
 import Filters from './Filters/Filters.js';
 import Book from './Book/Book.js';
-import { books } from '../../../data/data.js';
 
 class Books extends Component {
 
@@ -21,7 +20,6 @@ class Books extends Component {
             .then(res => res.json())
             .then(
                 (books) => {
-                    console.log(books);
                     this.setState({
                         isLoaded: true,
                         books: books
