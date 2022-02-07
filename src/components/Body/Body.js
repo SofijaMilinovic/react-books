@@ -3,6 +3,8 @@ import { Switch, Route } from "react-router-dom";
 import Home from './Home/Home.js';
 import Books from './Books/Books.js';
 import Cart from './Cart/Cart.js';
+import Login from './Login/Login';
+import Register from './Register/Register';
 
 function Body(props) {
 
@@ -21,6 +23,12 @@ function Body(props) {
             addBookToCartProp={props.addBookToCartProp}
             removeBookFromCartProp={props.removeBookFromCartProp}
             clearCartProp={props.clearCartProp} />
+        </Route>
+        <Route exact path="/login">
+          <Login />
+        </Route>
+        <Route exact path="/register">
+          <Register />
         </Route>
       </Switch>
     </div>

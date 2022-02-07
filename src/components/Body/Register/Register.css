@@ -1,0 +1,11 @@
+.Body {
+    text-align: left;
+    margin-top: 15em;
+    margin-bottom: 5em;
+}
+
+.email-error {
+    color: red;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
