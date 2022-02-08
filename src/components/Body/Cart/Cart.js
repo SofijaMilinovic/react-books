@@ -82,8 +82,8 @@ class Cart extends Component {
                                     return (
                                         <div key={cartEntry.book.id} className="col-lg-3 col-md-4 col-sm-12 col-12">
                                             <Book bookProp={cartEntry.book}
-                                                addBookToCartProp={this.props.addBookToCartProp}
-                                                removeBookFromCartProp={this.props.removeBookFromCartProp} />
+                                                plusClickedProp={this.props.addBookToCartProp}
+                                                minusClickedProp={this.props.removeBookFromCartProp} />
                                             <div className="book-amount">
                                                 Amount: {cartEntry.amount}
                                             </div>
