@@ -6,6 +6,7 @@ import Cart from './Cart/Cart.js';
 import Login from './Login/Login.js';
 import Register from './Register/Register.js';
 import Admin from './Admin/Admin.js';
+import BookDetails from './BookDetails/BookDetails';
 
 function Body(props) {
 
@@ -19,6 +20,9 @@ function Body(props) {
           <Books addBookToCartProp={props.addBookToCartProp}
             removeBookFromCartProp={props.removeBookFromCartProp}
             setCurrentActiveLinkProp={props.setCurrentActiveLinkProp} />
+        </Route>
+        <Route exact path="/books/create">
+          <BookDetails setCurrentActiveLinkProp={props.setCurrentActiveLinkProp}/>
         </Route>
         <Route exact path="/cart">
           <Cart cartProp={props.cartProp}

@@ -2,6 +2,7 @@ import { Component } from 'react';
 import './Books.css';
 import Filters from './Filters/Filters.js';
 import Book from './Book/Book.js';
+import { withRouter } from 'react-router-dom';
 
 class Books extends Component {
 
@@ -110,9 +111,19 @@ class Books extends Component {
             );
     }
 
+    createNewBook = () => {
+        this.props.history.push('/books/create');
+    }
+
     renderBooks() {
         return (
             <div className="Books container">
+                <div className="row">
+                    <div className="col-lg-6"></div>
+                    {this.state.isAdmin ? (
+                        <button className="btn btn-primary create-new-book" onClick={() => this.createNewBook()}>Create new book</button>
+                    ) : null}
+                </div>
                 <div className="row">
                     <div className="col-lg-3 col-md-4 col-sm-6 col-6">
                         <Filters books={this.state.books} updateBooksProp={this.updateBooks} />
@@ -150,4 +161,4 @@ class Books extends Component {
     }
 }
 
-export default Books;
+export default withRouter(Books);
