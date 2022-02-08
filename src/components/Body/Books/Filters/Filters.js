@@ -8,6 +8,8 @@ class Filters extends Component {
         super(props);
 
         this.state = {
+            error: null,
+            isLoaded: false,
             books: props.books,
             genres: []
         };
@@ -102,7 +104,7 @@ class Filters extends Component {
         this.filterBooks();
     }
 
-    render() {
+    renderFilters() {
         const genreOptions = this.state.genres.map((genre) =>
             <option key={genre.id} value={genre.id}>{genre.name}</option>
         );
@@ -134,6 +136,17 @@ class Filters extends Component {
             </div>
         );
     };
+
+    render() {
+        const { error, isLoaded } = this.state;
+        if (error) {
+            return <div>Error: {error.message}</div>;
+        } else if (!isLoaded) {
+            return <div>Loading...</div>;
+        } else {
+            return this.renderFilters();
+        }
+    }
 }
 
 export default Filters;
