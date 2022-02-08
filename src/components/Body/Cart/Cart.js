@@ -1,6 +1,7 @@
 import './Cart.css';
 import Book from '../Books/Book/Book.js';
 import { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 
 class Cart extends Component {
 
@@ -8,12 +9,41 @@ class Cart extends Component {
         super(props);
 
         this.state = {
+            error: null,
+            isLoaded: false,
             purchased: false,
         };
     }
 
     componentDidMount() {
         this.props.setCurrentActiveLinkProp('/cart');
+
+        const adminUrl = 'http://localhost:8080/auth/admin';
+        const postBody = {
+            id: sessionStorage.getItem("userId")
+        };
+        const requestMetadata = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(postBody)
+        };
+
+        fetch(adminUrl, requestMetadata)
+            .then(res => res.json())
+            .then(
+                (response) => {
+                    if (response.statusCode == 200) {
+                        this.props.history.push('/');
+                    } else {
+                        this.setState({ isLoaded: true });
+                    }
+                },
+                (error) => {
+                    this.setState({ registered: false, responseMessage: error });
+                }
+            );
     }
 
     onBuy = () => {
@@ -30,7 +60,7 @@ class Cart extends Component {
         return totalCartAmount;
     }
 
-    render() {
+    renderCart() {
         const cart = this.props.cartProp;
 
         return (
@@ -70,6 +100,17 @@ class Cart extends Component {
             </div>
         );
     }
+
+    render() {
+        const { error, isLoaded } = this.state;
+        if (error) {
+            return <div>Error: {error.message}</div>;
+        } else if (!isLoaded) {
+            return <div>Loading...</div>;
+        } else {
+            return this.renderCart();
+        }
+    }
 }
 
-export default Cart;
+export default withRouter(Cart);
