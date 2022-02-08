@@ -15,7 +15,7 @@ class App extends Component {
       cart: [],
       numberOfBooksInCart: 0,
       userId: sessionStorage.getItem("userId"),
-      currentActiveLink: '/'
+      currentActiveLink: "/"
     };
   }
 
@@ -69,13 +69,12 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+      <Router>
         <Header numberOfBooksInCartProp={this.state.numberOfBooksInCart}
           setUserIdProp={this.setUserId}
           userIdProp={this.state.userId} />
-        <Router>
           <Navigation userIdProp={this.state.userId}
-            currentActiveLinkProp={this.state.currentActiveLink}
-            setCurrentActiveLinkProp={this.setCurrentActiveLink} />
+            currentActiveLinkProp={this.state.currentActiveLink} />
           <Body addBookToCartProp={this.addBookToCart}
             removeBookFromCartProp={this.removeBookFromCart}
             cartProp={this.state.cart}

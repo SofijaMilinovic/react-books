@@ -12,6 +12,10 @@ class Cart extends Component {
         };
     }
 
+    componentDidMount() {
+        this.props.setCurrentActiveLinkProp('/cart');
+    }
+
     onBuy = () => {
         this.setState({ purchased: true });
         this.props.clearCartProp();

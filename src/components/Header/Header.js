@@ -1,6 +1,7 @@
 import './Header.css';
 import { bookImagesPath } from '../../data/data.js';
 import { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 
 class Header extends Component {
 
@@ -13,8 +14,9 @@ class Header extends Component {
     }
 
     logout = () => {
-        this.setState({loggedIn: false});
+        this.setState({ loggedIn: false });
         this.props.setUserIdProp(null);
+        this.props.history.push('/');
     }
 
     render() {
@@ -48,4 +50,4 @@ class Header extends Component {
     }
 }
 
-export default Header;
+export default withRouter(Header);

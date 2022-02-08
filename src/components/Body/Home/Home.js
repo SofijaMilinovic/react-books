@@ -3,8 +3,8 @@ import './Home.css';
 
 class Home extends Component {
 
-    componentDidMount = () => {
-        
+    componentDidMount() {
+        this.props.setCurrentActiveLinkProp('/');
     }
 
     render() {

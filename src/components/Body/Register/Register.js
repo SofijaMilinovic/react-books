@@ -22,6 +22,10 @@ class Register extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    componentDidMount() {
+        this.props.setCurrentActiveLinkProp('/register');
+    }
+
     handleFirstNameChange(event) {
         this.setState({ firstName: event.target.value });
     }

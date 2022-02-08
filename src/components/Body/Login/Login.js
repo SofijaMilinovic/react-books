@@ -18,6 +18,10 @@ class Login extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    componentDidMount() {
+        this.props.setCurrentActiveLinkProp('/login');
+    }
+
     handleEmailChange(event) {
         this.setState({ email: event.target.value });
     }
@@ -58,7 +62,6 @@ class Login extends Component {
                         this.clearForm();
                         this.props.setUserIdProp(response.data.id);
                         this.props.history.push('/');
-                        this.props.setCurrentActiveLinkProp('/');
                     } else {
                         this.setState({ loggedIn: false, responseMessage: response.message });
                     }
