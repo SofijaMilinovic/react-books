@@ -78,6 +78,7 @@ class Books extends Component {
     plusClicked = book => {
         if (this.state.isAdmin) {
             console.log('Admin clicked plus');
+            //TODO
         } else {
             this.props.addBookToCartProp(book);
         }
@@ -112,7 +113,7 @@ class Books extends Component {
     }
 
     createNewBook = () => {
-        this.props.history.push('/books/create');
+        this.props.history.push('/books/book-details');
     }
 
     renderBooks() {

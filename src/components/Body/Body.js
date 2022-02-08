@@ -21,7 +21,7 @@ function Body(props) {
             removeBookFromCartProp={props.removeBookFromCartProp}
             setCurrentActiveLinkProp={props.setCurrentActiveLinkProp} />
         </Route>
-        <Route exact path="/books/create">
+        <Route exact path="/books/book-details">
           <BookDetails setCurrentActiveLinkProp={props.setCurrentActiveLinkProp}/>
         </Route>
         <Route exact path="/cart">
