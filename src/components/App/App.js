@@ -14,7 +14,7 @@ class App extends Component {
     this.state = {
       cart: [],
       numberOfBooksInCart: 0,
-      userId: localStorage.getItem("userId"),
+      userId: sessionStorage.getItem("userId"),
       currentActiveLink: '/'
     };
   }
@@ -58,7 +58,7 @@ class App extends Component {
   }
 
   setUserId = userId => {
-    localStorage.setItem("userId", userId);
+    sessionStorage.setItem("userId", userId);
     this.setState({ userId: userId });
   }
 
