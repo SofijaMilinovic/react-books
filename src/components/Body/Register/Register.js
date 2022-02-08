@@ -67,7 +67,7 @@ class Register extends Component {
 
         this.setState({emailError: null});
 
-        const usersUrl = 'http://localhost:8080/users';
+        const registerUrl = 'http://localhost:8080/auth/register';
         const postBody = {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
@@ -82,7 +82,7 @@ class Register extends Component {
             body: JSON.stringify(postBody)
         };
 
-        fetch(usersUrl, requestMetadata)
+        fetch(registerUrl, requestMetadata)
             .then(res => res.json())
             .then(
                 (response) => {
@@ -139,7 +139,7 @@ class Register extends Component {
                     {this.state.responseMessage ? (
                         <div className="row">
                             <div className="col-lg-6 offset-lg-3">
-                                <div class={this.state.registered ? "alert alert-primary" : "alert alert-danger"}>
+                                <div className={this.state.registered ? "alert alert-primary" : "alert alert-danger"}>
                                     {this.state.responseMessage}
                                 </div>
                             </div>

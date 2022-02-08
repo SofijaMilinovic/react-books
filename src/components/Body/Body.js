@@ -8,7 +8,6 @@ import Register from './Register/Register';
 
 function Body(props) {
 
-
   return (
     <div className="Body">
       <Switch>
@@ -16,7 +15,8 @@ function Body(props) {
           <Home />
         </Route>
         <Route exact path="/books">
-          <Books addBookToCartProp={props.addBookToCartProp} removeBookFromCartProp={props.removeBookFromCartProp} />
+          <Books addBookToCartProp={props.addBookToCartProp}
+            removeBookFromCartProp={props.removeBookFromCartProp} />
         </Route>
         <Route exact path="/cart">
           <Cart cartProp={props.cartProp}
@@ -25,7 +25,8 @@ function Body(props) {
             clearCartProp={props.clearCartProp} />
         </Route>
         <Route exact path="/login">
-          <Login />
+          <Login setUserIdProp={props.setUserIdProp}
+            setCurrentActiveLinkProp={props.setCurrentActiveLinkProp} />
         </Route>
         <Route exact path="/register">
           <Register />

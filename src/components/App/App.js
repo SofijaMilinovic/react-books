@@ -14,6 +14,8 @@ class App extends Component {
     this.state = {
       cart: [],
       numberOfBooksInCart: 0,
+      userId: localStorage.getItem("userId"),
+      currentActiveLink: '/'
     };
   }
 
@@ -55,17 +57,31 @@ class App extends Component {
     this.setState({ cart: [], numberOfBooksInCart: 0 });
   }
 
- 
+  setUserId = userId => {
+    localStorage.setItem("userId", userId);
+    this.setState({ userId: userId });
+  }
+
+  setCurrentActiveLink = link => {
+    this.setState({ currentActiveLink: link });
+  }
+
   render() {
     return (
       <div className="App">
-        <Header numberOfBooksInCartProp={this.state.numberOfBooksInCart} />
+        <Header numberOfBooksInCartProp={this.state.numberOfBooksInCart}
+          setUserIdProp={this.setUserId}
+          userIdProp={this.state.userId} />
         <Router>
-          <Navigation />
+          <Navigation userIdProp={this.state.userId}
+            currentActiveLinkProp={this.state.currentActiveLink}
+            setCurrentActiveLinkProp={this.setCurrentActiveLink} />
           <Body addBookToCartProp={this.addBookToCart}
             removeBookFromCartProp={this.removeBookFromCart}
             cartProp={this.state.cart}
-            clearCartProp={this.clearCart} />
+            clearCartProp={this.clearCart}
+            setUserIdProp={this.setUserId}
+            setCurrentActiveLinkProp={this.setCurrentActiveLink} />
         </Router>
         <Footer />
       </div>
