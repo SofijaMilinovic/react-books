@@ -6,18 +6,23 @@ class BookDetails extends Component {
 
     constructor(props) {
         super(props);
+
         this.state = {
+            book: props.updatingBookProp ? props.updatingBookProp : {
+                id: null,
+                title: '',
+                imagePath: '',
+                genreId: null,
+                authorId: null,
+                price: '',
+            },
             error: null,
             isLoaded: false,
-            title: '',
-            imagePath: '',
-            genreId: null,
-            authorId: null,
-            price: '',
-            created: false,
+            requestSuccess: false,
             responseMessage: null,
             genres: [],
-            authors: []
+            authors: [],
+            showAlert: false,
         };
 
         this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -69,7 +74,10 @@ class BookDetails extends Component {
                 (genres) => {
                     this.setState({
                         genres: genres,
-                        genreId: genres[0].id
+                        book: {
+                            ...this.state.book,
+                            genreId: genres[0].id
+                        }
                     });
                     this.fetchAuthors();
                 },
@@ -89,7 +97,10 @@ class BookDetails extends Component {
                 (authors) => {
                     this.setState({
                         authors: authors,
-                        authorId: authors[0].id,
+                        book: {
+                            ...this.state.book,
+                            authorId: authors[0].id
+                        },
                         isLoaded: true,
                         error: null
                     });
@@ -104,50 +115,41 @@ class BookDetails extends Component {
     }
 
     handleTitleChange(event) {
-        this.setState({ title: event.target.value });
+        this.setState({ book: { ...this.state.book, title: event.target.value } });
     }
 
     handleImagePathChange(event) {
-        this.setState({ imagePath: event.target.value });
+        this.setState({ book: { ...this.state.book, imagePath: event.target.value } });
     }
 
     handleGenreChange(event) {
-        this.setState({ genreId: event.target.value });
+        this.setState({ book: { ...this.state.book, genreId: event.target.value } });
     }
 
     handleAuthorChange(event) {
-        this.setState({ authorId: event.target.value });
+        this.setState({ book: { ...this.state.book, authorId: event.target.value } });
     }
 
     handlePriceChange(event) {
-        this.setState({ price: event.target.value });
-    }
-
-    clearForm() {
-        this.setState({
-            title: '',
-            imagePath: '',
-            genreId: null,
-            authorId: null,
-            price: '',
-        });
+        this.setState({ book: { ...this.state.book, price: event.target.value } });
     }
 
     handleSubmit(event) {
         event.preventDefault();
 
-        const genreId = this.state.genreId;
-        const authorId = this.state.authorId;
+        const genreId = this.state.book.genreId;
+        const authorId = this.state.book.authorId;
         const booksUrl = 'http://localhost:8080/books';
         const postBody = {
-            title: this.state.title,
-            imagePath: this.state.imagePath,
+            id: this.state.book.id,
+            title: this.state.book.title,
+            imagePath: this.state.book.imagePath,
             genreData: { id: genreId },
             authorData: { id: authorId },
-            price: this.state.price
+            price: this.state.book.price
         };
         const requestMetadata = {
-            method: 'POST',
+            method: this.state.book.id ? 'PUT' : 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -158,15 +160,19 @@ class BookDetails extends Component {
             .then(res => res.json())
             .then(
                 (response) => {
-                    if (response.statusCode == 201) {
-                        this.setState({ created: true, responseMessage: response.message });
-                        this.clearForm();
+                    if ((this.state.book.id && response.statusCode == 200) || (!this.state.book.id && response.statusCode == 201)) {
+                        this.setState({ requestSuccess: true, responseMessage: response.message, showAlert: true });
+                        setTimeout(() => {
+                            this.setState({
+                                showAlert: false
+                            })
+                        }, 2000)
                     } else {
-                        this.setState({ created: false, responseMessage: response.message });
+                        this.setState({ requestSuccess: false, responseMessage: response.message });
                     }
                 },
                 (error) => {
-                    this.setState({ created: false, responseMessage: error });
+                    this.setState({ requestSuccess: false, responseMessage: error });
                 }
             );
     }
@@ -186,13 +192,13 @@ class BookDetails extends Component {
                     <div className="row">
                         <div className="col-lg-6 offset-lg-3">
                             <label>Title</label>
-                            <input type="text" className="form-control offset-bottom" required value={this.state.title} onChange={this.handleTitleChange}></input>
+                            <input type="text" className="form-control offset-bottom" required value={this.state.book.title} onChange={this.handleTitleChange}></input>
                         </div>
                     </div>
                     <div className="row">
                         <div className="col-lg-6 offset-lg-3">
                             <label>Price</label>
-                            <input type="number" min={bookPriceLimits.lower} max={bookPriceLimits.upper} className="form-control offset-bottom" required value={this.state.price} onChange={this.handlePriceChange}></input>
+                            <input type="number" min={bookPriceLimits.lower} max={bookPriceLimits.upper} className="form-control offset-bottom" required value={this.state.book.price} onChange={this.handlePriceChange}></input>
                         </div>
                     </div>
                     <div className="row">
@@ -214,20 +220,20 @@ class BookDetails extends Component {
                     <div className="row">
                         <div className="col-lg-6 offset-lg-3">
                             <label>Image</label>
-                            <input type="text" className="form-control offset-bottom" required value={this.state.imagePath} onChange={this.handleImagePathChange}></input>
-                            <img className="book-image" src={bookImagesPath + '/' + this.state.imagePath + '.png'} />
+                            <input type="text" className="form-control offset-bottom" required value={this.state.book.imagePath} onChange={this.handleImagePathChange}></input>
+                            <img className="book-image" src={bookImagesPath + '/' + this.state.book.imagePath + '.png'} />
                         </div>
                     </div>
                     <div className="row">
                         <div className="col-lg-6 offset-lg-3">
-                            <button className="btn btn-primary btn-create" type="submit">Create</button>
+                            <button className="btn btn-primary btn-create" type="submit">{this.state.book.id ? "Update" : "Create"}</button>
                         </div>
                     </div>
 
-                    {this.state.responseMessage ? (
+                    {this.state.showAlert && this.state.responseMessage ? (
                         <div className="row">
                             <div className="col-lg-6 offset-lg-3">
-                                <div className={this.state.created ? "alert alert-primary" : "alert alert-danger"}>
+                                <div className={this.state.requestSuccess ? "alert alert-primary" : "alert alert-danger"}>
                                     {this.state.responseMessage}
                                 </div>
                             </div>

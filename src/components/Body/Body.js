@@ -7,43 +7,69 @@ import Login from './Login/Login.js';
 import Register from './Register/Register.js';
 import Admin from './Admin/Admin.js';
 import BookDetails from './BookDetails/BookDetails';
+import { Component } from 'react';
 
-function Body(props) {
+class Body extends Component {
 
-  return (
-    <div className="Body">
-      <Switch>
-        <Route exact path="/">
-          <Home setCurrentActiveLinkProp={props.setCurrentActiveLinkProp}/>
-        </Route>
-        <Route exact path="/books">
-          <Books addBookToCartProp={props.addBookToCartProp}
-            removeBookFromCartProp={props.removeBookFromCartProp}
-            setCurrentActiveLinkProp={props.setCurrentActiveLinkProp} />
-        </Route>
-        <Route exact path="/books/book-details">
-          <BookDetails setCurrentActiveLinkProp={props.setCurrentActiveLinkProp}/>
-        </Route>
-        <Route exact path="/cart">
-          <Cart cartProp={props.cartProp}
-            addBookToCartProp={props.addBookToCartProp}
-            removeBookFromCartProp={props.removeBookFromCartProp}
-            clearCartProp={props.clearCartProp}
-            setCurrentActiveLinkProp={props.setCurrentActiveLinkProp} />
-        </Route>
-        <Route exact path="/login">
-          <Login setUserIdProp={props.setUserIdProp}
-            setCurrentActiveLinkProp={props.setCurrentActiveLinkProp} />
-        </Route>
-        <Route exact path="/register">
-          <Register setCurrentActiveLinkProp={props.setCurrentActiveLinkProp}/>
-        </Route>
-        <Route exact path="/admin">
-          <Admin setCurrentActiveLinkProp={props.setCurrentActiveLinkProp}/>
-        </Route>
-      </Switch>
-    </div>
-  );
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      updatingBook: null,
+    };
+  }
+
+  setUpdatingBook = book => {
+    this.setState({
+      updatingBook: book == null ? null : {
+        id: book.id,
+        title: book.title,
+        price: book.price,
+        imagePath: book.imagePath,
+        authorId: book.authorData.id,
+        genreId: book.genreData.id
+      }
+    });
+  }
+
+  render() {
+    return (
+      <div className="Body">
+        <Switch>
+          <Route exact path="/">
+            <Home setCurrentActiveLinkProp={this.props.setCurrentActiveLinkProp} />
+          </Route>
+          <Route exact path="/books">
+            <Books addBookToCartProp={this.props.addBookToCartProp}
+              removeBookFromCartProp={this.props.removeBookFromCartProp}
+              setCurrentActiveLinkProp={this.props.setCurrentActiveLinkProp}
+              setUpdatingBookProp={this.setUpdatingBook} />
+          </Route>
+          <Route exact path="/books/book-details">
+            <BookDetails setCurrentActiveLinkProp={this.props.setCurrentActiveLinkProp}
+              updatingBookProp={this.state.updatingBook} />
+          </Route>
+          <Route exact path="/cart">
+            <Cart cartProp={this.props.cartProp}
+              addBookToCartProp={this.props.addBookToCartProp}
+              removeBookFromCartProp={this.props.removeBookFromCartProp}
+              clearCartProp={this.props.clearCartProp}
+              setCurrentActiveLinkProp={this.props.setCurrentActiveLinkProp} />
+          </Route>
+          <Route exact path="/login">
+            <Login setUserIdProp={this.props.setUserIdProp}
+              setCurrentActiveLinkProp={this.props.setCurrentActiveLinkProp} />
+          </Route>
+          <Route exact path="/register">
+            <Register setCurrentActiveLinkProp={this.props.setCurrentActiveLinkProp} />
+          </Route>
+          <Route exact path="/admin">
+            <Admin setCurrentActiveLinkProp={this.props.setCurrentActiveLinkProp} />
+          </Route>
+        </Switch>
+      </div>
+    );
+  }
 }
 
 export default Body;
