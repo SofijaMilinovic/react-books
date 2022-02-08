@@ -57,8 +57,9 @@ class App extends Component {
     this.setState({ cart: [], numberOfBooksInCart: 0 });
   }
 
-  setUserId = userId => {
+  setUserId = (userId, firstName) => {
     sessionStorage.setItem("userId", userId);
+    sessionStorage.setItem("firstName", firstName);
     this.setState({ userId: userId });
   }
 

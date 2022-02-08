@@ -60,7 +60,7 @@ class Login extends Component {
                     if (response.statusCode == 200) {
                         this.setState({ loggedIn: true, responseMessage: response.message });
                         this.clearForm();
-                        this.props.setUserIdProp(response.data.id);
+                        this.props.setUserIdProp(response.data.id, response.data.firstName);
                         this.props.history.push('/');
                     } else {
                         this.setState({ loggedIn: false, responseMessage: response.message });

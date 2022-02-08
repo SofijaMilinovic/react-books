@@ -14,10 +14,17 @@
 }
 
 .e-book-text {
-    text-align: center;
     font-size: 3em;
     font-family: 'Courier New', Courier, monospace;
     color: black;
+}
+
+.username-text {
+    text-align: center;
+    font-size: 1.3em;
+    font-family: 'Courier New', Courier, monospace;
+    color: black;
+    margin-top: 20px;
 }
 
 .cart-logo {
