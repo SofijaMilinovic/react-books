@@ -39,7 +39,10 @@ class Admin extends Component {
           }
         },
         (error) => {
-          this.setState({ registered: false, responseMessage: error });
+          this.setState({
+            isLoaded: true,
+            error
+          });
         }
       );
   }

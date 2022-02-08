@@ -12,12 +12,46 @@ class Books extends Component {
             error: null,
             isLoaded: false,
             books: [],
+            isAdmin: false,
         };
     }
 
     componentDidMount() {
         this.props.setCurrentActiveLinkProp('/books');
 
+        const adminUrl = 'http://localhost:8080/auth/admin';
+        const postBody = {
+            id: sessionStorage.getItem("userId")
+        };
+        const requestMetadata = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(postBody)
+        };
+
+        fetch(adminUrl, requestMetadata)
+            .then(res => res.json())
+            .then(
+                (response) => {
+                    if (response.statusCode == 200) {
+                        this.setState({ isAdmin: true });
+                    } else {
+                        this.setState({ isAdmin: false });
+                    }
+                    this.fetchBooks();
+                },
+                (error) => {
+                    this.setState({
+                        isLoaded: true,
+                        error
+                    });
+                }
+            );
+    }
+
+    fetchBooks() {
         fetch("http://localhost:8080/books")
             .then(res => res.json())
             .then(
@@ -40,6 +74,42 @@ class Books extends Component {
         this.setState({ books: filteredBooks });
     }
 
+    plusClicked = book => {
+        if (this.state.isAdmin) {
+            console.log('Admin clicked plus');
+        } else {
+            this.props.addBookToCartProp(book);
+        }
+    }
+
+    minusClicked = book => {
+        if (this.state.isAdmin) {
+            const answer = window.confirm("Are you sure you want to delete this book?");
+            if (answer) {
+                this.deleteBook(book);
+            }
+        } else {
+            this.props.removeBookFromCartProp(book);
+        }
+    }
+
+    deleteBook = book => {
+        const booksUrl = 'http://localhost:8080/books/' + book.id;
+        const requestMetadata = {
+            method: 'DELETE'
+        };
+
+        fetch(booksUrl, requestMetadata)
+            .then(res => res.json())
+            .then(
+                (response) => {
+                    if (response.statusCode == 204) {
+                        this.fetchBooks();
+                    }
+                }
+            );
+    }
+
     renderBooks() {
         return (
             <div className="Books container">
@@ -53,7 +123,10 @@ class Books extends Component {
                                 {this.state.books.map(book => {
                                     return (
                                         <div key={book.id} className="col-lg-3 col-md-4 col-sm-12 col-12">
-                                            <Book bookProp={book} addBookToCartProp={this.props.addBookToCartProp} removeBookFromCartProp={this.props.removeBookFromCartProp} />
+                                            <Book bookProp={book}
+                                                plusClickedProp={this.plusClicked}
+                                                minusClickedProp={this.minusClicked}
+                                            />
                                         </div>
                                     );
                                 })}

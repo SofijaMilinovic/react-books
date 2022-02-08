@@ -20,10 +20,10 @@ function Book(props) {
             {showBookButtons ?
                 (<>
                     <div className="remove-book-container">
-                        <button className="book-button btn-danger" onClick={ () => props.removeBookFromCartProp(book) }>-</button>
+                        <button className="book-button btn-danger" onClick={ () => props.minusClickedProp(book) }>-</button>
                     </div>
                     <div className="add-book-container">
-                        <button className="book-button btn-success" onClick={ () => props.addBookToCartProp(book) }>+</button>
+                        <button className="book-button btn-success" onClick={ () => props.plusClickedProp(book) }>+</button>
                     </div>
                 </>) : null
             }
