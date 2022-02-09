@@ -112,9 +112,6 @@ class Checkout extends Component {
                         this.setState({ orderPlaced: true, responseMessage: response.message });
                         this.props.clearCartProp();
                         this.clearForm();
-                        setTimeout(() => {
-                            this.props.history.push('/');
-                        }, 3000);
                     } else {
                         this.setState({ orderPlaced: false, responseMessage: response.message });
                     }
