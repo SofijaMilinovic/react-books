@@ -5,7 +5,6 @@ import Books from './Books/Books.js';
 import Cart from './Cart/Cart.js';
 import Login from './Login/Login.js';
 import Register from './Register/Register.js';
-import Admin from './Admin/Admin.js';
 import BookDetails from './BookDetails/BookDetails';
 import { Component } from 'react';
 import Checkout from './Checkout/Checkout';
@@ -67,9 +66,6 @@ class Body extends Component {
           </Route>
           <Route exact path="/register">
             <Register setCurrentActiveLinkProp={this.props.setCurrentActiveLinkProp} />
-          </Route>
-          <Route exact path="/admin">
-            <Admin setCurrentActiveLinkProp={this.props.setCurrentActiveLinkProp} />
           </Route>
         </Switch>
       </div>
