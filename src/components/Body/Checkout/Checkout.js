@@ -86,13 +86,14 @@ class Checkout extends Component {
 
         const orderEntryDataList = this.props.cartProp.map(cartEntry => ({ bookData: cartEntry.book, quantity: cartEntry.amount }));
         const ordersUrl = 'http://localhost:8080/orders';
+        const userId = sessionStorage.getItem("userId");
         const postBody = {
             country: this.state.country,
             city: this.state.city,
             address: this.state.address,
             orderEntryDataList: orderEntryDataList,
-            userData: {
-                id: sessionStorage.getItem("userId")
+            userData: userId == null ? null : {
+                id: userId
             }
         };
         const requestMetadata = {
