@@ -8,6 +8,7 @@ import Register from './Register/Register.js';
 import BookDetails from './BookDetails/BookDetails';
 import { Component } from 'react';
 import Checkout from './Checkout/Checkout';
+import Orders from './Orders/Orders';
 
 class Body extends Component {
 
@@ -59,6 +60,9 @@ class Body extends Component {
             <Checkout cartProp={this.props.cartProp}
               setCurrentActiveLinkProp={this.props.setCurrentActiveLinkProp}
               clearCartProp={this.props.clearCartProp} />
+          </Route>
+          <Route exact path="/orders">
+            <Orders setCurrentActiveLinkProp={this.props.setCurrentActiveLinkProp} />
           </Route>
           <Route exact path="/login">
             <Login setUserIdProp={this.props.setUserIdProp}

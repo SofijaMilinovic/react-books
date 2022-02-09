@@ -58,8 +58,16 @@ class App extends Component {
   }
 
   setUserId = (userId, firstName) => {
-    sessionStorage.setItem("userId", userId);
-    sessionStorage.setItem("firstName", firstName);
+    if (userId == null) {
+      sessionStorage.removeItem("userId");
+    } else {
+      sessionStorage.setItem("userId", userId);
+    }
+    if (firstName == null) {
+      sessionStorage.removeItem("firstName");
+    } else {
+      sessionStorage.setItem("firstName", firstName);
+    }
     this.setState({ userId: userId });
   }
 
@@ -70,10 +78,10 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-      <Router>
-        <Header numberOfBooksInCartProp={this.state.numberOfBooksInCart}
-          setUserIdProp={this.setUserId}
-          userIdProp={this.state.userId} />
+        <Router>
+          <Header numberOfBooksInCartProp={this.state.numberOfBooksInCart}
+            setUserIdProp={this.setUserId}
+            userIdProp={this.state.userId} />
           <Navigation userIdProp={this.state.userId}
             currentActiveLinkProp={this.state.currentActiveLink} />
           <Body addBookToCartProp={this.addBookToCart}

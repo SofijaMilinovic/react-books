@@ -29,12 +29,22 @@ class Navigation extends Component {
                                 text="Register"
                                 currentActiveLinkProp={this.props.currentActiveLinkProp} />
                         </div>
-                        {this.props.userIdProp == null ? (
-                            <div className="col-lg-3">
-                                <NavigationItem link="/login"
-                                    text="Login"
-                                    currentActiveLinkProp={this.props.currentActiveLinkProp} />
-                            </div>) : null}
+                        {this.props.userIdProp == null ?
+                            (
+                                <div className="col-lg-3">
+                                    <NavigationItem link="/login"
+                                        text="Login"
+                                        currentActiveLinkProp={this.props.currentActiveLinkProp} />
+                                </div>
+                            ) :
+                            (
+                                <div className="col-lg-3">
+                                    <NavigationItem link="/orders"
+                                        text="Orders"
+                                        currentActiveLinkProp={this.props.currentActiveLinkProp} />
+                                </div>
+                            )
+                        }
                     </div>
                 </div>
             </div>
