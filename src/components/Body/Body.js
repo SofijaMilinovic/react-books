@@ -77,7 +77,8 @@ class Body extends Component {
           </Route>
           <Route exact path="/login">
             <Login setUserIdProp={this.props.setUserIdProp}
-              setCurrentActiveLinkProp={this.props.setCurrentActiveLinkProp} />
+              setCurrentActiveLinkProp={this.props.setCurrentActiveLinkProp}
+              clearCartProp={this.props.clearCartProp} />
           </Route>
           <Route exact path="/register">
             <Register setCurrentActiveLinkProp={this.props.setCurrentActiveLinkProp} />

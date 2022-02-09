@@ -61,6 +61,7 @@ class Login extends Component {
                         this.setState({ loggedIn: true, responseMessage: response.message });
                         this.clearForm();
                         this.props.setUserIdProp(response.data.id, response.data.firstName);
+                        this.props.clearCartProp();
                         this.props.history.push('/');
                     } else {
                         this.setState({ loggedIn: false, responseMessage: response.message });

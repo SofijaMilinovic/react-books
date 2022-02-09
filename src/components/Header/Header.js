@@ -15,6 +15,7 @@ class Header extends Component {
 
     logout = () => {
         this.setState({ loggedIn: false });
+        this.props.clearCartProp();
         this.props.setUserIdProp(null, null);
         this.props.history.push('/');
     }

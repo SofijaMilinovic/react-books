@@ -81,7 +81,8 @@ class App extends Component {
         <Router>
           <Header numberOfBooksInCartProp={this.state.numberOfBooksInCart}
             setUserIdProp={this.setUserId}
-            userIdProp={this.state.userId} />
+            userIdProp={this.state.userId}
+            clearCartProp={this.clearCart} />
           <Navigation userIdProp={this.state.userId}
             currentActiveLinkProp={this.state.currentActiveLink} />
           <Body addBookToCartProp={this.addBookToCart}
