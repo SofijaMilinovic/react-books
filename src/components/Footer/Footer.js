@@ -8,6 +8,7 @@ class Footer extends Component {
 
         this.state = {
             currentTime: new Date().toLocaleString(),
+            randomQuote: ''
         };
     }
 
@@ -16,16 +17,31 @@ class Footer extends Component {
             this.setState({
                 currentTime: new Date().toLocaleString()
             })
-        }, 1000)
+        }, 1000);
+
+        this.fetchRandomQuote();
+        setInterval(() => {
+            this.fetchRandomQuote();
+        }, 15000);
+    }
+
+    fetchRandomQuote() {
+        fetch("https://api.quotable.io/random")
+            .then(res => res.json())
+            .then(result => {
+                this.setState({
+                    randomQuote: result.content + " - " + result.author
+                });
+            });
     }
 
     render() {
         return (
             <div className="Footer">
-                {this.state.currentTime}
+                <p>{this.state.currentTime}</p>
+                <p>{this.state.randomQuote}</p>
             </div>
         );
-        
     }
 }
 

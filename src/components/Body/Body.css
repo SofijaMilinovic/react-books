@@ -1,7 +1,7 @@
 .Body {
     text-align: center;
     margin-top: 10em;
-    margin-bottom: 5em;
+    margin-bottom: 10em !important;
 }
 
 @media screen and (max-width: 991px) {
