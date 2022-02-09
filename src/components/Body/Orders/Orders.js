@@ -115,6 +115,11 @@ class Orders extends Component {
             );
     }
 
+    viewOrderDetails = order => {
+        this.props.setOrderProp(order);
+        this.props.history.push('/order-details');
+    }
+
     renderOrders() {
         const orders = this.state.orders.map(order =>
             <tr key={order.id}>
@@ -128,7 +133,7 @@ class Orders extends Component {
                 <td>{order.address}</td>
                 <td>{this.getTotalOrderPrice(order)} <span style={{ color: "green" }}>$</span></td>
                 <td>
-                    <button className="btn btn-light margin-right">View details</button>
+                    <button className="btn btn-light margin-right" onClick={() => this.viewOrderDetails(order)}>View details</button>
                     {this.state.isAdmin && order.orderStatusData.name == "PENDING" ? (
                         <button className="btn btn-secondary" onClick={() => this.completeOrder(order)}>Complete</button>
                     ) : null}

@@ -9,8 +9,8 @@ function Book(props) {
 
     return (
         <div className="Book"
-            onMouseEnter={() => setShowBookButtons(true)}
-            onMouseLeave={() => setShowBookButtons(false)}>
+            onMouseEnter={!props.disableBookButtonsProp ? () => setShowBookButtons(true) : null}
+            onMouseLeave={!props.disableBookButtonsProp ? () => setShowBookButtons(false) : null}>
             <img className="book-image" src={bookImagesPath + '/' + book.imagePath + '.png'} />
             <div>{book.genreData.name}</div>
             <div>{book.title}</div>

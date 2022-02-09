@@ -9,6 +9,7 @@ import BookDetails from './BookDetails/BookDetails';
 import { Component } from 'react';
 import Checkout from './Checkout/Checkout';
 import Orders from './Orders/Orders';
+import OrderDetails from './OrderDetails/OrderDetails';
 
 class Body extends Component {
 
@@ -17,6 +18,7 @@ class Body extends Component {
 
     this.state = {
       updatingBook: null,
+      order: null,
     };
   }
 
@@ -31,6 +33,10 @@ class Body extends Component {
         genreId: book.genreData.id
       }
     });
+  }
+
+  setOrder = order => {
+    this.setState({ order: order });
   }
 
   render() {
@@ -62,7 +68,12 @@ class Body extends Component {
               clearCartProp={this.props.clearCartProp} />
           </Route>
           <Route exact path="/orders">
-            <Orders setCurrentActiveLinkProp={this.props.setCurrentActiveLinkProp} />
+            <Orders setCurrentActiveLinkProp={this.props.setCurrentActiveLinkProp}
+              setOrderProp={this.setOrder} />
+          </Route>
+          <Route exact path="/order-details">
+            <OrderDetails setCurrentActiveLinkProp={this.props.setCurrentActiveLinkProp}
+              orderProp={this.state.order} />
           </Route>
           <Route exact path="/login">
             <Login setUserIdProp={this.props.setUserIdProp}
