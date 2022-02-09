@@ -87,6 +87,34 @@ class Orders extends Component {
         return totalPrice;
     }
 
+    completeOrder = order => {
+        const ordersUrl = 'http://localhost:8080/orders';
+        const putBody = { ...order };
+        const requestMetadata = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(putBody)
+        };
+
+        fetch(ordersUrl, requestMetadata)
+            .then(res => res.json())
+            .then(
+                (response) => {
+                    if (response.statusCode == 200) {
+                        this.fetchOrdersForUser();
+                    }
+                },
+                (error) => {
+                    this.setState({
+                        isLoaded: true,
+                        error
+                    });
+                }
+            );
+    }
+
     renderOrders() {
         const orders = this.state.orders.map(order =>
             <tr key={order.id}>
@@ -98,11 +126,11 @@ class Orders extends Component {
                 <td>{order.country}</td>
                 <td>{order.city}</td>
                 <td>{order.address}</td>
-                <td>{this.getTotalOrderPrice(order)} <span style={{color: "green"}}>$</span></td>
+                <td>{this.getTotalOrderPrice(order)} <span style={{ color: "green" }}>$</span></td>
                 <td>
                     <button className="btn btn-light margin-right">View details</button>
                     {this.state.isAdmin && order.orderStatusData.name == "PENDING" ? (
-                        <button className="btn btn-secondary">Complete</button>
+                        <button className="btn btn-secondary" onClick={() => this.completeOrder(order)}>Complete</button>
                     ) : null}
                 </td>
             </tr>
