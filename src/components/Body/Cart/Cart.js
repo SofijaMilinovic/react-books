@@ -10,8 +10,7 @@ class Cart extends Component {
 
         this.state = {
             error: null,
-            isLoaded: false,
-            purchased: false,
+            isLoaded: false
         };
     }
 
@@ -49,10 +48,8 @@ class Cart extends Component {
             );
     }
 
-    onBuy = () => {
-        this.setState({ purchased: true });
-        this.props.clearCartProp();
-        setTimeout(() => this.setState({ purchased: false }), 5000);
+    checkout = () => {
+        this.props.history.push('/checkout');
     }
 
     getTotalCartAmount = (cart) => {
@@ -94,11 +91,7 @@ class Cart extends Component {
                     </div>
                 </div>
                 <div className="col-lg-3 col-md-3">
-                    {cart.length != 0 ? (<button className="btn btn-primary btn-buy" onClick={this.onBuy}>Buy</button>) : null}
-                    {this.state.purchased ?
-                        (<div className="alert alert-primary">
-                            Purchase successful!
-                        </div>) : null}
+                    {cart.length != 0 ? (<button className="btn btn-primary btn-checkout" onClick={() => this.checkout()}>Checkout</button>) : null}
                 </div>
             </div>
         );

@@ -14,7 +14,7 @@ class Admin extends Component {
   }
 
   componentDidMount() {
-    this.props.setCurrentActiveLinkProp('/admin');
+    this.props.setCurrentActiveLinkProp(null);
 
     const adminUrl = 'http://localhost:8080/auth/admin';
     const postBody = {

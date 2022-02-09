@@ -8,6 +8,7 @@ import Register from './Register/Register.js';
 import Admin from './Admin/Admin.js';
 import BookDetails from './BookDetails/BookDetails';
 import { Component } from 'react';
+import Checkout from './Checkout/Checkout';
 
 class Body extends Component {
 
@@ -53,8 +54,12 @@ class Body extends Component {
             <Cart cartProp={this.props.cartProp}
               addBookToCartProp={this.props.addBookToCartProp}
               removeBookFromCartProp={this.props.removeBookFromCartProp}
-              clearCartProp={this.props.clearCartProp}
               setCurrentActiveLinkProp={this.props.setCurrentActiveLinkProp} />
+          </Route>
+          <Route exact path="/checkout">
+            <Checkout cartProp={this.props.cartProp}
+              setCurrentActiveLinkProp={this.props.setCurrentActiveLinkProp}
+              clearCartProp={this.props.clearCartProp} />
           </Route>
           <Route exact path="/login">
             <Login setUserIdProp={this.props.setUserIdProp}
