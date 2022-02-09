@@ -13,7 +13,9 @@ class Checkout extends Component {
             address: '',
             password: '',
             orderPlaced: false,
-            responseMessage: null
+            responseMessage: null,
+            totalCartSum: 0,
+            cartAmountFetched: false
         };
 
         this.handleCountryChange = this.handleCountryChange.bind(this);
@@ -24,6 +26,7 @@ class Checkout extends Component {
 
     componentDidMount() {
         this.props.setCurrentActiveLinkProp(null);
+        this.getTotalCartSum();
     }
 
     handleCountryChange(event) {
@@ -38,12 +41,33 @@ class Checkout extends Component {
         this.setState({ address: event.target.value });
     }
 
-    getTotalCartAmount = (cart) => {
-        let totalCartAmount = 0;
-        for (let i = 0; i < cart.length; i++) {
-            totalCartAmount += cart[i].book.price * cart[i].amount;
-        }
-        return totalCartAmount;
+    getTotalCartSum = () => {
+        const cartEntryDataList = this.props.cartProp.map(cartEntry => ({ bookData: cartEntry.book, quantity: cartEntry.amount }));
+        const cartsUrl = 'http://localhost:8080/carts/total-sum';
+        const postBody = {
+            userId: sessionStorage.getItem("userId"),
+            cartEntryDataList: cartEntryDataList
+        };
+        const requestMetadata = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(postBody)
+        };
+
+        fetch(cartsUrl, requestMetadata)
+            .then(res => res.json())
+            .then(
+                (response) => {
+                    if (response.statusCode == 200) {
+                        this.setState({ cartAmountFetched: true, responseMessage: response.message, totalCartSum: response.data });
+                    }
+                },
+                (error) => {
+                    this.setState({ orderPlaced: false, responseMessage: error });
+                }
+            );
     }
 
     clearForm = () => {
@@ -127,7 +151,7 @@ class Checkout extends Component {
                     <div className="row">
                         <div className="col-lg-6 offset-lg-3 total-amount">
                             <label>Total amount</label>
-                            <div>{this.getTotalCartAmount(cart)} <span style={{ color: "green" }}>$</span></div>
+                            <div>{this.state.totalCartSum} <span style={{ color: "green" }}>$</span></div>
                         </div>
                     </div>
                     <div className="row">
@@ -139,7 +163,7 @@ class Checkout extends Component {
                     {this.state.responseMessage ? (
                         <div className="row">
                             <div className="col-lg-6 offset-lg-3">
-                                <div className={this.state.orderPlaced ? "alert alert-primary" : "alert alert-danger"}>
+                                <div className={this.state.orderPlaced || this.state.cartAmountFetched ? "alert alert-primary" : "alert alert-danger"}>
                                     {this.state.responseMessage}
                                 </div>
                             </div>
