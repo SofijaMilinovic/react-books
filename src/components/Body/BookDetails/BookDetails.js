@@ -71,15 +71,22 @@ class BookDetails extends Component {
         fetch("http://localhost:8080/genres")
             .then(res => res.json())
             .then(
-                (genres) => {
-                    this.setState({
-                        genres: genres,
-                        book: {
-                            ...this.state.book,
-                            genreId: genres[0].id
-                        }
-                    });
-                    this.fetchAuthors();
+                (response) => {
+                    if (response.statusCode == 200) {
+                        this.setState({
+                            genres: response.data,
+                            book: {
+                                ...this.state.book,
+                                genreId: response.data[0].id
+                            }
+                        });
+                        this.fetchAuthors();
+                    } else {
+                        this.setState({
+                            isLoaded: true,
+                            error: response.message
+                        });
+                    }
                 },
                 (error) => {
                     this.setState({
@@ -94,16 +101,23 @@ class BookDetails extends Component {
         fetch("http://localhost:8080/authors")
             .then(res => res.json())
             .then(
-                (authors) => {
-                    this.setState({
-                        authors: authors,
-                        book: {
-                            ...this.state.book,
-                            authorId: authors[0].id
-                        },
-                        isLoaded: true,
-                        error: null
-                    });
+                (response) => {
+                    if (response.statusCode == 200) {
+                        this.setState({
+                            authors: response.data,
+                            book: {
+                                ...this.state.book,
+                                authorId: response.data[0].id
+                            },
+                            isLoaded: true,
+                            error: null
+                        });
+                    } else {
+                        this.setState({
+                            isLoaded: true,
+                            error: response.message
+                        });
+                    }
                 },
                 (error) => {
                     this.setState({
@@ -166,7 +180,7 @@ class BookDetails extends Component {
                             this.setState({
                                 showAlert: false
                             })
-                        }, 2000)
+                        }, 2000);
                     } else {
                         this.setState({ requestSuccess: false, responseMessage: response.message });
                     }

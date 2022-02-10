@@ -62,6 +62,8 @@ class Checkout extends Component {
                 (response) => {
                     if (response.statusCode == 200) {
                         this.setState({ cartAmountFetched: true, responseMessage: response.message, totalCartSum: response.data });
+                    } else {
+                        this.setState({ cartAmountFetched: true, responseMessage: response.message });
                     }
                 },
                 (error) => {

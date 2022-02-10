@@ -28,9 +28,9 @@ class Footer extends Component {
     fetchRandomQuote() {
         fetch("https://api.quotable.io/random")
             .then(res => res.json())
-            .then(result => {
+            .then(response => {
                 this.setState({
-                    randomQuote: result.content + " - " + result.author
+                    randomQuote: response.content + " - " + response.author
                 });
             });
     }

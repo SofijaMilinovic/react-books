@@ -56,11 +56,18 @@ class Books extends Component {
         fetch("http://localhost:8080/books")
             .then(res => res.json())
             .then(
-                (books) => {
-                    this.setState({
-                        isLoaded: true,
-                        books: books
-                    });
+                (response) => {
+                    if (response.statusCode == 200) {
+                        this.setState({
+                            isLoaded: true,
+                            books: response.data
+                        });
+                    } else {
+                        this.setState({
+                            isLoaded: true,
+                            error: response.message
+                        });
+                    }
                 },
                 (error) => {
                     this.setState({
@@ -107,6 +114,11 @@ class Books extends Component {
                 (response) => {
                     if (response.statusCode == 204) {
                         this.fetchBooks();
+                    } else {
+                        this.setState({
+                            isLoaded: true,
+                            error: response.message
+                        });
                     }
                 }
             );

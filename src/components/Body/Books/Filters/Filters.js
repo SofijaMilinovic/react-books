@@ -27,11 +27,18 @@ class Filters extends Component {
         fetch("http://localhost:8080/genres")
             .then(res => res.json())
             .then(
-                (genres) => {
-                    this.setState({
-                        isLoaded: true,
-                        genres: genres
-                    });
+                (response) => {
+                    if (response.statusCode == 200) {
+                        this.setState({
+                            isLoaded: true,
+                            genres: response.data
+                        });
+                    } else {
+                        this.setState({
+                            isLoaded: true,
+                            error: response.message
+                        });
+                    }
                 },
                 (error) => {
                     this.setState({

@@ -64,11 +64,18 @@ class Orders extends Component {
         fetch('http://localhost:8080/orders/users/' + userId)
             .then(res => res.json())
             .then(
-                (orders) => {
-                    this.setState({
-                        isLoaded: true,
-                        orders: orders
-                    });
+                (response) => {
+                    if (response.statusCode == 200) {
+                        this.setState({
+                            isLoaded: true,
+                            orders: response.data
+                        });
+                    } else {
+                        this.setState({
+                            isLoaded: true,
+                            error: response.message
+                        });
+                    }
                 },
                 (error) => {
                     this.setState({
@@ -104,6 +111,11 @@ class Orders extends Component {
                 (response) => {
                     if (response.statusCode == 200) {
                         this.fetchOrdersForUser();
+                    } else {
+                        this.setState({
+                            isLoaded: true,
+                            error: response.message
+                        });
                     }
                 },
                 (error) => {
