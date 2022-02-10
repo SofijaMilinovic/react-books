@@ -95,14 +95,12 @@ class Orders extends Component {
     }
 
     completeOrder = order => {
-        const ordersUrl = 'http://localhost:8080/orders';
-        const putBody = { ...order };
+        const ordersUrl = 'http://localhost:8080/orders/' + order.id;
         const requestMetadata = {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(putBody)
+            }
         };
 
         fetch(ordersUrl, requestMetadata)
