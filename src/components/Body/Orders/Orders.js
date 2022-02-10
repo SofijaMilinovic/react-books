@@ -61,7 +61,7 @@ class Orders extends Component {
 
     fetchOrdersForUser() {
         const userId = sessionStorage.getItem("userId");
-        fetch('http://localhost:8080/orders/users/' + userId)
+        fetch('http://localhost:8080/users/' + userId + '/orders')
             .then(res => res.json())
             .then(
                 (response) => {
