@@ -90,7 +90,7 @@ class Register extends Component {
             .then(res => res.json())
             .then(
                 (response) => {
-                    if (response.statusCode == 202) {
+                    if (response.statusCode == 201) {
                         this.setState({ registered: true, responseMessage: response.message });
                         this.clearForm();
                     } else {
