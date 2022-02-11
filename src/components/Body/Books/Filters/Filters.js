@@ -9,7 +9,7 @@ class Filters extends Component {
 
         this.state = {
             error: null,
-            isLoaded: false,
+            isLoaded: true,
             books: props.books,
             genres: []
         };
