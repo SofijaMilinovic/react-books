@@ -67,7 +67,8 @@ class Filters extends Component {
 
     checkBookAuthor = book => {
         const authorFilter = this.filters.author.value;
-        return !/\S/.test(authorFilter) || book.author.toLowerCase().includes(authorFilter.toLowerCase());
+        const authorFullName = book.authorData.firstName + ' ' + book.authorData.lastName;
+        return !/\S/.test(authorFilter) || authorFullName.toLowerCase().includes(authorFilter.toLowerCase());
     }
 
     checkBookPrice = book => {
@@ -99,7 +100,7 @@ class Filters extends Component {
         if (selectedGenreId == 'All') {
             return true;
         }
-        return book.genre.id == selectedGenreId;
+        return book.genreData.id == selectedGenreId;
     }
 
     resetFilters = () => {
